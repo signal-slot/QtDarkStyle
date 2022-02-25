@@ -3,14 +3,18 @@
 #include "StandardStyle.h"
 #include "TraditionalWindowsStyleTreeControl.h"
 
-QStyle *DarkStylePlugin::createStandardStyle()
+QStringList DarkStylePlugin::keys() const
 {
-	return new StandardStyle();
+	return QStringList{"DarkStyle", "StandardStyle"};
 }
 
-QStyle *DarkStylePlugin::createDarkStyle()
+QStyle *DarkStylePlugin::create(const QString &key)
 {
-	return new DarkStyle();
+	const QString &lower = key.toLower();
+	if (lower == "darkstyle")
+		return new DarkStyle;
+	if (lower == "standardstyle")
+		return new StandardStyle;
+
+	return nullptr;
 }
-
-

@@ -6,7 +6,8 @@ TEMPLATE = lib
 CONFIG += plugin
 CONFIG += c++11
 
-DESTDIR = $$PWD/_out
+#DESTDIR = $$PWD/_out
+win32:DLLDESTDIR=$$PWD/_out/styles
 macx:DESTDIR = $$PWD/_out/DarkStyleExampleApp.app/Contents/MacOS
 
 unix:QMAKE_CXXFLAGS += -Wall -Wextra -Werror=return-type -Werror=trigraphs -Wno-switch -Wno-reorder
@@ -18,15 +19,15 @@ SOURCES += \
     plugin/DarkStyle.cpp \
     plugin/DarkStylePlugin.cpp \
     plugin/StandardStyle.cpp \
-	plugin/TraditionalWindowsStyleTreeControl.cpp
+    plugin/TraditionalWindowsStyleTreeControl.cpp
 
 HEADERS += \
-    ../DarkStyleInterface.h \
+    DarkStyleInterface.h \
     plugin/NinePatch.h \
     plugin/DarkStyle.h \
     plugin/DarkStylePlugin.h \
     plugin/StandardStyle.h \
-	plugin/TraditionalWindowsStyleTreeControl.h
+    plugin/TraditionalWindowsStyleTreeControl.h
 
 FORMS +=
 

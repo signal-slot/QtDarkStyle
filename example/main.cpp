@@ -4,28 +4,18 @@
 #include <QApplication>
 #include <QPluginLoader>
 #include <QProxyStyle>
-
+#include <QStyleFactory>
 
 int main(int argc, char *argv[])
 {
-	if (0) {
-		QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-	}
+#if QT_VERSION_CHECK(5, 6, 0) <= QT_VERSION && QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+#endif
 	QApplication a(argc, argv);
 
 
-	QPluginLoader loader("darkstyleplugin");
-
-	DarkStyleInterface *plugin = dynamic_cast<DarkStyleInterface *>(loader.instance());
-	if (plugin) {
-		a.setStyle(plugin->createDarkStyle());
-//		a.setStyle(plugin->createStandardStyle());
-		a.setPalette(a.style()->standardPalette());
-	}
-
-
 	MainWindow w;
-	w.setStyle(a.style());
+	a.setStyle(QStyleFactory::create("DarkStyle"));
 	w.show();
 
 	return a.exec();

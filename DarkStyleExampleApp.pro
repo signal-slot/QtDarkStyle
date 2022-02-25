@@ -19,7 +19,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 INCLUDEPATH += $$PWD
 INCLUDEPATH += $$PWD/src
 
-LIBS += -L$$PWD/_out/
+#LIBS += -L$$PWD/_out/
 # -ldarkstyleplugin
 
 SOURCES += \

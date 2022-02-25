@@ -1,19 +1,25 @@
 #ifndef DARKSTYLEPLUGIN_H
 #define DARKSTYLEPLUGIN_H
 
-#include "../DarkStyleInterface.h"
+//#include "../DarkStyleInterface.h"
 
-#include <QObject>
+#include <QStylePlugin>
 
-class TraditionalWindowsStyleTreeControl;
+//class TraditionalWindowsStyleTreeControl;
 
-class DarkStylePlugin : public QObject, public DarkStyleInterface {
-	Q_OBJECT
-	Q_PLUGIN_METADATA(IID "jp.soramimi.DarkStylePlugin" FILE "darkstyleplugin.json")
-	Q_INTERFACES(DarkStyleInterface)
+QT_BEGIN_NAMESPACE
+class QStringList;
+class QStyle;
+QT_END_NAMESPACE
+
+class DarkStylePlugin : public QStylePlugin
+{
+  Q_OBJECT
+  Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QStyleFactoryInterface" FILE "darkstyleplugin.json")
+
 public:
-	QStyle *createStandardStyle();
-	QStyle *createDarkStyle();
+  QStringList keys() const;
+  QStyle *create(const QString &key) Q_DECL_OVERRIDE;
 };
 
 #endif // DARKSTYLEPLUGIN_H

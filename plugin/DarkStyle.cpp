@@ -169,7 +169,9 @@ DarkStyle::DarkStyle(QColor const &base_color)
 	: m(new Private)
 {
 	setBaseColor(base_color);
-	setDpiScalingEnabled(QApplication::testAttribute(Qt::AA_EnableHighDpiScaling));
+#if QT_VERSION_CHECK(5, 6, 0) <= QT_VERSION && QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+#endif
 }
 
 DarkStyle::~DarkStyle()
@@ -733,9 +735,11 @@ int DarkStyle::pixelMetric(PixelMetric metric, const QStyleOption *option, const
 	case PM_DockWidgetTitleBarButtonMargin:
 		val = 2;
 		break;
+#if QT_VERSION_CHECK(5, 8, 0) <= QT_VERSION
 	case PM_TitleBarButtonSize:
 		val = 19;
 		break;
+#endif
 	case PM_MaximumDragDistance:
 		return -1; // Do not dpi-scale because the value is magic
 	case PM_TabCloseIndicatorWidth:
@@ -2847,7 +2851,11 @@ QSize DarkStyle::sizeFromContents(ContentsType type, const QStyleOption *option,
 				QFont fontBold = menuItem->font;
 				fontBold.setBold(true);
 				QFontMetrics fmBold(fontBold);
+#if QT_VERSION_CHECK(5, 11, 0) <= QT_VERSION
 				w += fmBold.horizontalAdvance(menuItem->text) - fm.horizontalAdvance(menuItem->text);
+#else
+				w += fmBold.boundingRect(menuItem->text).width() - fm.boundingRect(menuItem->text).width();
+#endif
 			}
 			const qreal dpi = DarkStyleHelper::dpi(option);
 			const int checkcol = qMax<int>(maxpmw, dpiScaled(menuCheckMarkWidth, dpi)); // Windows always shows a check column
